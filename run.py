@@ -13,34 +13,41 @@ def ackley(x, y):
 def sphere(x, y):
     return x**2 + y**2
 
+def plotGraph(x_array, y_array, function):
+    ax = plt.figure().add_subplot(projection='3d')
+    for i in range(len(x_array)):
+        values = function(x_array[i], y_array[i])
+    ax.scatter(x_array, y_array, values)
+    a = b = np.linspace(-5.12, 5.12, num=50)
+    X, Y = np.meshgrid(a, b)
+    Z = function(X, Y)
+    ax.plot_wireframe(X, Y, Z, rstride=2, cstride=2, color="red")
+    plt.show()
+
 cp = (0,0)
-r = 4
-size = 300
-p = population(size, cp, r, rastrigin)
+r = 5
+size = 20
+p = population(size, cp, r, sphere)
+
+x_array_start = [None]*p.size
+y_array_start = [None]*p.size
+for i in range(p.size):
+    x_array_start[i] = p.population[i][0]
+    y_array_start[i] = p.population[i][1]
+
 iterations = 0
-while(not p.converges(0.005) and max(p.fitness_values) < 0.9999):
+while(not p.converges(0.000005)): #and max(p.fitness_values) < 0.99):
     p.print()
-    p.recreate(0.95, 0.15)
+    p.recreate(0.95, 0.05)
     iterations+= 1
 p.print()
 print(iterations, "iterations")
 
-# values = [None] * p.size
-# x_array = [None] * p.size
-# y_array = [None] * p.size
+plotGraph(x_array_start, y_array_start, sphere)
 
-# for j in range(4):
-#     for i in range(p.size):
-#         x_array[i] = p.population[i][0]
-#         y_array[i] = p.population[i][1]
-#         values[i] = rastrigin(x_array[i], y_array[i])
-
-# ax = plt.figure().add_subplot(projection='3d')
-#     # ax.scatter(x_array, y_array, values)
-# a = np.linspace(-5.12, 5.12, num=50)
-# b = np.linspace(-5.12, 5.12, num=50)
-# X, Y = np.meshgrid(a, b)
-# Z = sphere(X, Y)
-# ax.plot_wireframe(X, Y, Z, rstride=1, cstride=1, color="red")
-    # p.recreate(0.9)
-# plt.show()
+x_array_end = [None]*p.size
+y_array_end = [None]*p.size
+for i in range(p.size):
+    x_array_end[i] = p.population[i][0]
+    y_array_end[i] = p.population[i][1]
+plotGraph(x_array_end, y_array_end, sphere)
