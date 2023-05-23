@@ -117,4 +117,4 @@ class population:
         fvmax = max(self.fitness_values)
         indmax = self.fitness_values.index(fvmax)
         indmin = self.fitness_values.index(fvmin)
-        print("average:", self.average, self.population[indmax], "fvalue:", fvmax)
+        print("average:", self.average, ",max fitness value: ", fvmax, "of candidate: ", self.population[indmax])
